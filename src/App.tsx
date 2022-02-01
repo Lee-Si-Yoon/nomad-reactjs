@@ -1,7 +1,13 @@
 import styled, { keyframes } from "styled-components";
+import Circle from "./Circle";
 
 function App() {
-  return <h1>Hi</h1>;
+  return (
+    <div>
+      <Circle bgColor="teal" />
+      <Circle bgColor="tomato" />
+    </div>
+  );
 }
 
 export default App;
