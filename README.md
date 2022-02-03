@@ -12,3 +12,10 @@ Learn and dominate the React ecosystem once and for all.
 - React Spring
 - Typescript
 - Firebase
+
+# COINTRACKER
+
+/ : All coins
+/:id -> /btc : Coin Detail
+/btc/information
+/btc/chart
