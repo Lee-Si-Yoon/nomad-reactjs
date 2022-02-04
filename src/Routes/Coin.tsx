@@ -1,9 +1,9 @@
 //import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router";
-import { Routes, Route, Link, useMatch, Outlet } from "react-router-dom";
+import { Link, useMatch, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import Price from "./Price";
-import Chart from "./Chart";
+//import Price from "./Price";
+//import Chart from "./Chart";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 
