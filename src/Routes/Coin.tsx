@@ -1,6 +1,6 @@
 //import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router";
-import { Routes, Route, Link, useMatch } from "react-router-dom";
+import { Routes, Route, Link, useMatch, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
@@ -140,7 +140,7 @@ interface PriceData {
 }
 
 function Coin() {
-  const params = useParams();
+  const { coinId } = useParams();
   const location = useLocation();
   const state = location.state as RouteState;
 
@@ -148,12 +148,12 @@ function Coin() {
   const chartMatch = useMatch("/:coinId/chart");
 
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
-    ["info", params.coinId],
-    () => fetchCoinInfo(params.coinId)
+    ["info", coinId],
+    () => fetchCoinInfo(coinId)
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
-    ["tickers", params.coinId],
-    () => fetchCoinTickers(params.coinId)
+    ["tickers", coinId],
+    () => fetchCoinTickers(coinId)
   );
   const loading = infoLoading || tickersLoading;
 
@@ -196,17 +196,14 @@ function Coin() {
 
           <Tabs>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/${params.coinId}/chart`}>Chart</Link>
+              <Link to={`/${coinId}/chart`}>Chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/${params.coinId}/price`}>Price</Link>
+              <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-
-          <Routes>
-            <Route path="price" element={<Price />}></Route>
-            <Route path="chart" element={<Chart />}></Route>
-          </Routes>
+          {/* Outlet renders chart or price */}
+          <Outlet context={{ coinId }} />
         </>
       )}
     </Container>
@@ -214,3 +211,8 @@ function Coin() {
 }
 
 export default Coin;
+
+/**              <Routes>
+            <Route path="chart" element={<Chart />}></Route>
+            <Route path="price" element={<Price />}></Route>
+          </Routes>       */
