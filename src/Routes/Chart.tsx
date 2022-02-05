@@ -17,6 +17,8 @@ interface IHistoricalData {
   market_cap: number;
 }
 
+//data?.map((price) => price.close),
+
 function Chart() {
   const { coinId } = useOutletContext<IParam>();
   const { isLoading, data } = useQuery<IHistoricalData[]>(
@@ -42,9 +44,6 @@ function Chart() {
               theme: {
                 mode: "dark",
               },
-              fill: {
-                colors: ["#333"],
-              },
               chart: {
                 height: 300,
                 width: 500,
@@ -65,6 +64,16 @@ function Chart() {
                 axisBorder: { show: false },
                 axisTicks: { show: true },
                 labels: { show: false },
+                categories: data?.map((price) => price.time_close),
+                type: "datetime",
+              },
+              fill: {
+                type: "gradient",
+                gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+              },
+              colors: ["#0fbcf9"],
+              tooltip: {
+                y: { formatter: (value) => `$ ${value.toFixed(2)}` },
               },
             }}
           />
