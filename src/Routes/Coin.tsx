@@ -72,7 +72,6 @@ const Tab = styled.span<{ isActive: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px 0px;
   border-radius: 10px;
-
   a {
     color: ${(props) =>
       props.isActive ? props.theme.accentColor : props.theme.textColor};
@@ -80,9 +79,6 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
-/*interface RouteParams {
-  coinId: string;
-}*/
 interface RouteState {
   name: string;
 }
@@ -173,6 +169,7 @@ function Coin() {
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
+        <Link to={"../"}> go back</Link>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>

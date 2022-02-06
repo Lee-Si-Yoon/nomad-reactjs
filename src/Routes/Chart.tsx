@@ -17,8 +17,6 @@ interface IHistoricalData {
   market_cap: number;
 }
 
-//data?.map((price) => price.close),
-
 function Chart() {
   const { coinId } = useOutletContext<IParam>();
   const { isLoading, data } = useQuery<IHistoricalData[]>(
@@ -34,13 +32,21 @@ function Chart() {
         "Loading chart..."
       ) : (
         <>
-          <h3>{coinId}</h3>
           <ApexChart
-            type="line"
+            type="candlestick"
             series={[
               {
-                name: "Price",
-                data: data?.map((price) => price.close),
+                data: data?.map((price) => {
+                  return {
+                    x: price.time_close.slice(2, 10),
+                    y: [
+                      price.open.toFixed(2),
+                      price.high.toFixed(2),
+                      price.low.toFixed(2),
+                      price.close.toFixed(2),
+                    ],
+                  };
+                }),
               },
             ]}
             options={{
@@ -48,38 +54,22 @@ function Chart() {
                 mode: "dark",
               },
               chart: {
-                height: 300,
-                width: 500,
+                background: "transparent",
                 toolbar: {
                   show: false,
                 },
-                background: "transparent",
               },
-              grid: { show: false },
-              stroke: {
-                curve: "smooth",
-                width: 4,
-              },
-              yaxis: {
+              grid: {
                 show: false,
               },
               xaxis: {
                 axisBorder: { show: false },
                 axisTicks: { show: true },
                 labels: { show: false },
-                categories: data?.map((price) => price.time_close),
-                type: "datetime",
               },
-              fill: {
-                type: "gradient",
-                gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
-              },
-              colors: ["#0fbcf9"],
-              tooltip: {
-                y: { formatter: (value) => `$ ${value.toFixed(2)}` },
-              },
+              yaxis: { show: false },
             }}
-          />
+          ></ApexChart>
         </>
       )}
     </div>
