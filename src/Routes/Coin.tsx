@@ -7,6 +7,7 @@ import styled from "styled-components";
 //import Chart from "./Chart";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { BooleanLiteral } from "typescript";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -135,8 +136,11 @@ interface PriceData {
     };
   };
 }
+interface ICoinprops {
+  isDark: boolean;
+}
 
-function Coin() {
+function Coin({ isDark }: ICoinprops) {
   const { coinId } = useParams();
   const location = useLocation();
   const state = location.state as RouteState;
@@ -210,7 +214,7 @@ function Coin() {
             </Tab>
           </Tabs>
           {/* Outlet renders chart or price */}
-          <Outlet context={{ coinId }} />
+          <Outlet context={{ coinId, isDark }} />
         </>
       )}
     </Container>

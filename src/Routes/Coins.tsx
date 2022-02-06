@@ -68,19 +68,11 @@ interface ICoin {
   type: string;
 }
 
-function Coins() {
-  /*
-  const [coins, setCoins] = useState<CoinInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    (async () => {
-      const response = await fetch("https://api.coinpaprika.com/v1/coins");
-      const json = await response.json();
-      setCoins(json.slice(0, 99));
-      setLoading(false);
-    })();
-  }, []);
-  */
+interface ICoinProps {
+  toggleDark: () => void;
+}
+
+function Coins({ toggleDark }: ICoinProps) {
   // isLoading is boolean
   const { isLoading, data } = useQuery<ICoin[]>("allcoins", fetchCoins);
 
@@ -94,6 +86,7 @@ function Coins() {
 
       <Header>
         <Title>coins</Title>
+        <button onClick={toggleDark}>Toggle Dark Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

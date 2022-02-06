@@ -17,7 +17,11 @@ interface IHistoricalData {
   market_cap: number;
 }
 
-function Chart() {
+interface IProps {
+  isDark: boolean;
+}
+
+function Chart({ isDark }: IProps) {
   const { coinId } = useOutletContext<IParam>();
   const { isLoading, data } = useQuery<IHistoricalData[]>(
     ["ohlcv", coinId],
@@ -51,7 +55,7 @@ function Chart() {
             ]}
             options={{
               theme: {
-                mode: "dark",
+                mode: isDark ? "dark" : "light",
               },
               chart: {
                 background: "transparent",
