@@ -59,11 +59,9 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: 'Source Sans Pro', sans-serif;
-    font-size : 15px;
-    line-height: 1.5;
-    letter-spacing : -0.022em;
     background-color:${(props) => props.theme.bgColor};
     color:${(props) => props.theme.textColor};
+    line-height: 1.2;
   }
   a {
     text-decoration:none;
