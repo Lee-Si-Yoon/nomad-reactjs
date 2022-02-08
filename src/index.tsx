@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import App from "./App";
-import { darkTheme } from "./theme";
+import { lightTheme } from "./theme";
 
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <ThemeProvider theme={darkTheme}></ThemeProvider>
+      <ThemeProvider theme={lightTheme}></ThemeProvider>
       <App />
     </RecoilRoot>
   </React.StrictMode>,

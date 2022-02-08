@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import ToDoList from "./ToDoList";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -57,8 +58,6 @@ const GlobalStyle = createGlobalStyle`
     font-size : 15px;
     line-height: 1.5;
     letter-spacing : -0.022em;
-    background-color:${(props) => props.theme.bgColor};
-    color:${(props) => props.theme.textColor};
   }
   a {
     text-decoration:none;
@@ -78,6 +77,7 @@ function App() {
         </Helmet>
       </HelmetProvider>
       <GlobalStyle />
+      <ToDoList />
     </>
   );
 }
