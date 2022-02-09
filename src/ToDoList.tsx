@@ -33,13 +33,33 @@ import { useForm } from "react-hook-form";
 } */
 
 function ToDoList() {
-  const { register, watch } = useForm();
+  const { register, watch, handleSubmit, formState } = useForm();
+  // handleSubmit handles validation
   //console.log(register("toDo"));
-  console.log(watch());
+  //console.log(watch());
+  //console.log(formState.errors); = to see error
+  const onValid = (data: any) => {
+    console.log(data);
+  };
   return (
     <div>
-      <form>
-        <input {...register("toDo")} placeholder="write a to do"></input>
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        onSubmit={handleSubmit(onValid)}
+      >
+        <input
+          {...register("toDo", {
+            required: true,
+            minLength: { value: 5, message: "toDo is short" },
+          })}
+          placeholder="write a to do"
+          required
+        ></input>
+        {/* to prevent removing from html required */}
+        <input
+          {...register("name", { required: "name is required" })}
+          placeholder="name"
+        ></input>
         <button>Add</button>
       </form>
     </div>
