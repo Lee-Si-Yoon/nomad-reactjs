@@ -5,14 +5,18 @@ interface IForm {
   toDo?: string; // if it not required
   name: string;
   email: string;
+  password?: any;
+  password1?: any;
+  extraError?: string;
 }
 
 function ToDoList() {
   const {
     register, // to use form
-    watch,
+    //watch,
     handleSubmit, // handleSubmit handles validation
     formState: { errors }, // to see error
+    setError,
   } = useForm<IForm>({
     defaultValues: {
       email: "@naver.com",
@@ -21,8 +25,15 @@ function ToDoList() {
     },
   });
 
-  const onValid = (data: any) => {
-    console.log(data);
+  const onValid = (data: IForm) => {
+    if (data.password !== data.password1) {
+      setError(
+        "password1",
+        { message: "password not same" },
+        { shouldFocus: true }
+      );
+    }
+    setError("extraError", { message: "Server offline" });
   };
   console.log(errors);
   return (
@@ -41,7 +52,15 @@ function ToDoList() {
         ></input>
         {/* to prevent removing from html required */}
         <input
-          {...register("name", { required: "name is required" })}
+          {...register("name", {
+            required: "name is required",
+            validate: {
+              nico: (value) =>
+                value.includes("nico") ? "no nico allowed" : true,
+              noNic: (value) =>
+                value.includes("nic") ? "no nico allowed" : true,
+            },
+          })}
           placeholder="name"
         ></input>
         <span>{errors?.name?.message}</span>
@@ -56,7 +75,11 @@ function ToDoList() {
           placeholder="email"
         ></input>
         <span>{errors?.email?.message}</span>
+        <input {...register("password")} placeholder="name"></input>
+        <input {...register("password1")} placeholder="name"></input>
+        <span>{errors?.password1?.message}</span>
         <button>Add</button>
+        <span>{errors?.extraError?.message}</span>
       </form>
     </div>
   );
