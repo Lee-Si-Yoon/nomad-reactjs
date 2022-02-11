@@ -1,46 +1,30 @@
 //import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-/* function ToDoList() {
-  const [toDo, setToDo] = useState("");
-  const [toDoError, setToDoError] = useState("");
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setToDo(value);
-  };
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(toDo);
-    if (toDo.length < 5) {
-      return setToDoError("to do should be longer");
-    }
-  };
-  return (
-    <>
-      <form onSubmit={onSubmit}>
-        <input
-          onChange={onChange}
-          value={toDo}
-          placeholder="Write to do"
-        ></input>
-        <button>Add</button>
-        {toDoError !== "" ? toDoError : null}
-      </form>
-    </>
-  );
-} */
+interface IForm {
+  toDo?: string; // if it not required
+  name: string;
+  email: string;
+}
 
 function ToDoList() {
-  const { register, watch, handleSubmit, formState } = useForm();
-  // handleSubmit handles validation
-  //console.log(register("toDo"));
-  //console.log(watch());
-  //console.log(formState.errors); = to see error
+  const {
+    register, // to use form
+    watch,
+    handleSubmit, // handleSubmit handles validation
+    formState: { errors }, // to see error
+  } = useForm<IForm>({
+    defaultValues: {
+      email: "@naver.com",
+      toDo: "anything",
+      name: "you name",
+    },
+  });
+
   const onValid = (data: any) => {
     console.log(data);
   };
+  console.log(errors);
   return (
     <div>
       <form
@@ -60,6 +44,18 @@ function ToDoList() {
           {...register("name", { required: "name is required" })}
           placeholder="name"
         ></input>
+        <span>{errors?.name?.message}</span>
+        <input
+          {...register("email", {
+            required: "email required",
+            pattern: {
+              value: /^[A-Za-z0-9._%+-]+@naver.com$/,
+              message: "only naver.com",
+            },
+          })}
+          placeholder="email"
+        ></input>
+        <span>{errors?.email?.message}</span>
         <button>Add</button>
       </form>
     </div>
