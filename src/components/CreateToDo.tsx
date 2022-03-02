@@ -12,6 +12,7 @@ function CreateToDo() {
   const handleValid = ({ toDo }: IForm) => {
     setToDos((oldToDos) => [
       { text: toDo, id: Date.now(), category: "TO_DO" },
+      // previous inputs
       ...oldToDos,
     ]);
     setValue("toDo", "");
