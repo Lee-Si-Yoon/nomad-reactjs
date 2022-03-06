@@ -14,17 +14,42 @@ function ToDo({ text, category, id }: IToDo) {
     const {
       currentTarget: { name },
     } = event;
-    setToDos((oldToDos) => {
-      // toDo.id is id from onClick, id is from props sent by ToDoList
-      const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
-      //const oldToDo = oldToDos[targetIndex];
-      const newToDo = { text, id, category: name as any };
-      return [
-        ...oldToDos.slice(0, targetIndex),
-        newToDo,
-        ...oldToDos.slice(targetIndex + 1),
+    const LOCAL_TODOS = JSON.parse(localStorage.getItem("toDos") as any);
+    const LOCAL_TODO = LOCAL_TODOS.findIndex((toDo: any) => toDo.id === id);
+    if (name !== "delete") {
+      setToDos((oldToDos) => {
+        // toDo.id is id from onClick, id is from props sent by ToDoList
+        const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
+        //const oldToDo = oldToDos[targetIndex];
+        const newToDo = { text, id, category: name as any };
+        // LOCAL STORAGE
+        const NEW_LOCAL_TODOS = [
+          ...LOCAL_TODOS.slice(0, LOCAL_TODO),
+          newToDo,
+          ...LOCAL_TODOS.slice(LOCAL_TODO + 1),
+        ];
+        localStorage.setItem("toDos", JSON.stringify(NEW_LOCAL_TODOS));
+
+        return [
+          ...oldToDos.slice(0, targetIndex),
+          newToDo,
+          ...oldToDos.slice(targetIndex + 1),
+        ];
+      });
+    } else {
+      const NEW_LOCAL_TODOS = [
+        ...LOCAL_TODOS.slice(0, LOCAL_TODO),
+        ...LOCAL_TODOS.slice(LOCAL_TODO + 1),
       ];
-    });
+      localStorage.setItem("toDos", JSON.stringify(NEW_LOCAL_TODOS));
+      setToDos((oldToDos) => {
+        const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
+        return [
+          ...oldToDos.slice(0, targetIndex),
+          ...oldToDos.slice(targetIndex + 1),
+        ];
+      });
+    }
   };
   return (
     <li>
@@ -36,14 +61,17 @@ function ToDo({ text, category, id }: IToDo) {
       )}
       {category !== Categories.DOING && (
         <button name={Categories.DOING} onClick={onClick}>
-          Done
+          Doing
         </button>
       )}
       {category !== Categories.DONE && (
         <button name={Categories.DONE} onClick={onClick}>
-          Doing
+          Done
         </button>
       )}
+      <button name="delete" onClick={onClick}>
+        X
+      </button>
     </li>
   );
 }

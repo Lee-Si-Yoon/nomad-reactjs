@@ -6,6 +6,8 @@ interface IForm {
   toDo: string;
 }
 
+let L_TO_DOS: any = [];
+
 function CreateToDo() {
   const setToDos = useSetRecoilState(toDoState);
   // to set category from the wanted starting category
@@ -17,6 +19,8 @@ function CreateToDo() {
       // previous inputs
       ...oldToDos,
     ]);
+    L_TO_DOS.push({ text: toDo, id: Date.now(), category });
+    localStorage.setItem("toDos", JSON.stringify(L_TO_DOS));
     setValue("toDo", "");
   };
   return (
