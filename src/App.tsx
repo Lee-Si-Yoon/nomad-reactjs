@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import ToDoList from "./components/ToDoList";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { hourSelector, minutesState } from "./atoms";
+import React from "react";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -68,6 +70,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const [minutes, setMinutes] = useRecoilState(minutesState);
+  const hours = useRecoilValue(hourSelector);
+  const onMinutesChange = (event: React.FormEvent<HTMLInputElement>) => {
+    // +event this plus makes the thing into number
+    setMinutes(+event.currentTarget.value);
+  };
   return (
     <>
       <HelmetProvider>
@@ -79,7 +87,13 @@ function App() {
         </Helmet>
       </HelmetProvider>
       <GlobalStyle />
-      <ToDoList />
+      <input
+        value={minutes}
+        onChange={onMinutesChange}
+        type="number"
+        placeholder="Minutes"
+      />
+      <input value={hours} type="number" placeholder="Hours" />
     </>
   );
 }
